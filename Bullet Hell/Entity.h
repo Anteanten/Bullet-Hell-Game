@@ -11,15 +11,15 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	
-	sf::Vector2f getPosition()const;
+	sf::Vector2f getPos()const;
 	sf::Vector2f getVelocity()const;
 
 };
 
-Entity::Entity(){
+inline Entity::Entity(){
 }
 
-sf::Vector2f Entity::getPosition()const {
+inline sf::Vector2f Entity::getPos()const {
 	return position;
 }
 

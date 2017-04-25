@@ -42,7 +42,6 @@ void Player::update(float deltaTime) {
 }
 
 void Player::draw(sf::RenderWindow &window) {
-	//window.draw(bulletHandler.getAllBulletVerticies());
 	window.draw(player);
 }
 
