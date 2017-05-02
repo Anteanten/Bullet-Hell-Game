@@ -40,7 +40,7 @@ int main() {
 			fps = 0;
 			checkTime = 0;
 		}
-		window.display();
+ 		window.display();
 	}
 
 	return 0;

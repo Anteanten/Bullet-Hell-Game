@@ -7,10 +7,14 @@ private:
 	sf::Sprite sprite;
 
 public:
-	Bullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::Vector2f velocity) {
-		sprite.setPosition(position);
-		sprite.setColor(color);
+	Bullet() {
+	}
+
+	void setBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::IntRect rect, sf::Vector2f velocity) {
 		sprite.setTexture(texture);
+		sprite.setTextureRect(rect);
+		sprite.setColor(color);
+		sprite.setPosition(position);
 		this->velocity = velocity;
 	}
 

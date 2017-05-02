@@ -6,6 +6,7 @@
 
 class Player : public Entity{
 private:
+	
 	BulletHandler bulletHandler;
 
 	void controll();

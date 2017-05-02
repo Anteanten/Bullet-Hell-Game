@@ -3,12 +3,24 @@
 #include "SFML\Graphics.hpp"
 #include "Bullet.h"
 
+enum State {ALIVE, DEAD};
+
 class BulletHandler {
 private:
-	Bullet **bullets;
+	class Bullets{
+	public:
+		Bullet* bullet;
+		State state;
+		Bullets() {
+			bullet = new Bullet();
+			state = DEAD;
+		}
+	};
+	Bullets** bullets;
+
+	sf::VertexArray vertex;
 
 	int capacity;
-	int nrOfBullets;
 
 	void expand();
 public:
@@ -16,7 +28,9 @@ public:
 
 	void update(float deltaTime);
 
-	void addBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::Vector2f velocity);
+	sf::VertexArray getVertexArray();
+
+	void addBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::IntRect rect, sf::Vector2f velocity);
 
 };
 

@@ -1,34 +1,87 @@
 #include "BulletHandler.h"
+#include <iostream>
 
 void BulletHandler::expand() {
 	capacity += 20;
-	Bullet** temp = new Bullet*[capacity];
+	Bullets** temp = new Bullets*[capacity];
 	for (int i = 0; i < capacity; i++) {
-		temp[i] = bullets[i];
+		if (i < capacity - 20) {
+			temp[i] = bullets[i];
+		} else {
+			temp[i] = new Bullets();
+		}
 	}
+	vertex.resize(capacity * 4);
 	delete[] bullets;
 	bullets = temp;
 }
 
 BulletHandler::BulletHandler() {
 	capacity = 20;
-	nrOfBullets = 0;
-	bullets = new Bullet*[capacity];
+	vertex.resize(capacity * 4);
+	vertex.setPrimitiveType(sf::Quads);
+	bullets = new Bullets*[capacity];
 	for (int i = 0; i < capacity; i++) {
-		bullets[i] = nullptr;
+		bullets[i] = new Bullets();
 	}
 }
 
 void BulletHandler::update(float deltaTime) {
-	for (int i = 0; i < nrOfBullets; i++) {
-		bullets[i]->update(deltaTime);
+	for (int i = 0; i < capacity; i++) {
+		if (bullets[i] != nullptr) {
+			if (bullets[i]->state == ALIVE) {
+				bullets[i]->bullet->update(deltaTime);
+
+				sf::Vertex* quad = &vertex[i * 4];
+				sf::Sprite* spr = bullets[i]->bullet->getSprite();
+
+				quad[0].position = sf::Vector2f(spr->getPosition().x, spr->getPosition().y);
+				quad[1].position = sf::Vector2f(spr->getPosition().x + spr->getTextureRect().width, spr->getPosition().y);
+				quad[2].position = sf::Vector2f(spr->getPosition().x + spr->getTextureRect().width, spr->getPosition().y + spr->getTextureRect().height);
+				quad[3].position = sf::Vector2f(spr->getPosition().x, spr->getPosition().y + spr->getTextureRect().height);
+				if (quad[0].position.x > 1000 || quad[0].position.y > 1000 || quad[0].position.x < -100 || quad[0].position.y < -100) {
+					bullets[i]->state = DEAD;
+				}
+			}
+		}
 	}
-	
 }
 
-void BulletHandler::addBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::Vector2f velocity) {
-	if (nrOfBullets == capacity) {
-		expand();
+sf::VertexArray BulletHandler::getVertexArray() {
+	return vertex;
+}
+
+void BulletHandler::addBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::IntRect rect, sf::Vector2f velocity) {
+	int count = 0;
+	while (bullets[count]->state == ALIVE) {
+		count++;
+		if (count == capacity) {
+			expand();
+		}
 	}
-	bullets[nrOfBullets++] = new Bullet(position, color, texture, velocity);
+	bullets[count]->bullet->setBullet(position, color, texture, rect, velocity);
+
+	// Get the quad contained in the vertex array
+	sf::Vertex* quad = &vertex[count * 4];
+	sf::Sprite *spr = bullets[count]->bullet->getSprite();
+
+	// Set the position of the sprite
+	quad[0].position = sf::Vector2f(spr->getPosition().x, spr->getPosition().y);
+	quad[1].position = sf::Vector2f(spr->getPosition().x + spr->getTextureRect().width,
+		spr->getPosition().y);
+	quad[2].position = sf::Vector2f(spr->getPosition().x + spr->getTextureRect().width,
+		spr->getPosition().y + spr->getTextureRect().height);
+	quad[3].position = sf::Vector2f(spr->getPosition().x, spr->getPosition().y +
+		spr->getTextureRect().height);
+
+	// Set the texture of the sprite
+	quad[0].texCoords = sf::Vector2f(spr->getTextureRect().left, spr->getTextureRect().top);
+	quad[1].texCoords = sf::Vector2f(spr->getTextureRect().left + spr->getTextureRect().width,
+		spr->getTextureRect().top);
+	quad[2].texCoords = sf::Vector2f(spr->getTextureRect().left + spr->getTextureRect().width,
+		spr->getTextureRect().top + spr->getTextureRect().height);
+	quad[3].texCoords = sf::Vector2f(spr->getTextureRect().left, spr->getTextureRect().top +
+		spr->getTextureRect().height);
+
+	bullets[count]->state = ALIVE;
 }
