@@ -1,5 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
+enum State { ALIVE, DEAD };
 #include "SFML\Graphics.hpp"
 
 class Entity {

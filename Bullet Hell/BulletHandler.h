@@ -3,8 +3,6 @@
 #include "SFML\Graphics.hpp"
 #include "Bullet.h"
 
-enum State {ALIVE, DEAD};
-
 class BulletHandler {
 private:
 	class Bullets{
@@ -25,12 +23,19 @@ private:
 	void expand();
 public:
 	BulletHandler();
+	~BulletHandler();
 
 	void update(float deltaTime);
 
-	sf::VertexArray getVertexArray();
+	sf::VertexArray *getVertexArray();
 
-	void addBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::IntRect rect, sf::Vector2f velocity);
+	int getCapacity()const;
+	Bullet getBullet(int index)const;
+	State getBulletState(int index)const;
+
+	void killBullet(int index);
+
+	void addBullet(sf::Vector2f position, sf::Color color, sf::Texture &texture, sf::IntRect rect, sf::Vector2f velocity);
 
 };
 

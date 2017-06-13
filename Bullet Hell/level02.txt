@@ -1,0 +1,54 @@
+10
+enemy = {
+	spawnStart = 1;
+	spawnInterval = 1;
+
+	xPosition = -32;
+	yPosition = 100;
+	xVelocity = 75;
+	yVelocity = 0;
+	xBulletVelocity = 0;
+	yBulletVelocity = 50;
+
+	health = 5;
+	amount = 5;
+
+	texture = drone.png;
+	fireType = straigt;
+}=
+
+enemy = {
+	spawnStart = 5;
+	spawnInterval = 2;
+
+	xPosition = -32;
+	yPosition = 500;
+	xVelocity = 75;
+	yVelocity = 0;
+	xBulletVelocity = 0;
+	yBulletVelocity = -50;
+
+	health = 5;
+	amount = 10;
+
+	texture = drone.png;
+	fireType = track;
+}=
+
+enemy = {
+	spawnStart = 6;
+	spawnInterval = 2;
+
+	xPosition = 50;
+	yPosition = -32;
+	xVelocity = 0;
+	yVelocity = 75;
+	xBulletVelocity = 50;
+	yBulletVelocity = 0;
+
+	health = 5;
+	amount = 3;
+
+	texture = drone.png;
+	fireType = track;
+}=

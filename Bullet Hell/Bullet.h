@@ -1,6 +1,7 @@
 #ifndef BULLET_H
 #define BULLET_H
 #include "Entity.h"
+#include <math.h>
 
 class Bullet : public Entity {
 private:
@@ -10,7 +11,7 @@ public:
 	Bullet() {
 	}
 
-	void setBullet(sf::Vector2f position, sf::Color color, sf::Texture texture, sf::IntRect rect, sf::Vector2f velocity) {
+	void setBullet(sf::Vector2f position, sf::Color color, sf::Texture &texture, sf::IntRect rect, sf::Vector2f velocity) {
 		sprite.setTexture(texture);
 		sprite.setTextureRect(rect);
 		sprite.setColor(color);
@@ -20,6 +21,10 @@ public:
 
 	void update(float deltaTime) {
 		sprite.setPosition(sprite.getPosition().x + velocity.x * deltaTime, sprite.getPosition().y + velocity.y * deltaTime);
+	}
+
+	void kill() {
+		sprite.setPosition(-500, -500);
 	}
 
 	sf::Sprite* getSprite() {
